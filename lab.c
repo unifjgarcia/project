@@ -341,3 +341,16 @@ void salvarClientes(Cliente clientes[], int numClientes) {
     // Fecha o arquivo.
     fclose(arquivo);
 }
+void carregarClientes(Cliente clientes[], int *numClientes) {
+     // Abre o arquivo "clientes.dat" em modo de leitura binária ("rb").
+    FILE *arquivo = fopen("clientes.dat", "rb");
+    // Verifica se o arquivo foi aberto corretamente. Se não for possível abrir, exibe uma mensagem de aviso e retorna.
+    if (arquivo == NULL) {
+        printf("Arquivo de dados nao encontrado. Iniciando com lista vazia.\n");
+        return;
+    }
+    // Usa a função fread para ler os dados do arquivo e carregá-los no array de clientes.
+    *numClientes = fread(clientes, sizeof(Cliente), MAX_CLIENTES, arquivo);
+    // Fecha o arquivo após a leitura.
+    fclose(arquivo);
+}
