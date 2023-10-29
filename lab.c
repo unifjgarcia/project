@@ -199,3 +199,65 @@ void deposito(Cliente clientes[], int numClientes) {
 
     printf("Cliente com CPF %s nao encontrado.\n", cpfDeposito);
 }
+void extrato(Cliente clientes[], int numClientes) {
+    // Verifica se não há clientes cadastrados.
+    if (numClientes == 0) {
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+
+    char cpfExtrato[12];
+    printf("Informe o CPF do cliente: ");
+    scanf("%s", cpfExtrato);
+
+    int indiceCliente = -1;
+    // Procura pelo cliente com o CPF informado.
+    for (int i = 0; i < numClientes; ++i) {
+        // Compara o CPF digitado com o CPF do cliente atual.
+        if (my_strcmp(clientes[i].cpf, cpfExtrato) == 0) {
+            char senhaExtrato[20];
+            printf("Informe a senha do cliente: ");
+            scanf("%s", senhaExtrato);
+
+            // Verifica se a senha está correta
+            if (my_strcmp(clientes[i].senha, senhaExtrato) == 0) {
+                FILE *arquivoExtrato;
+                char nomeArquivo[50];
+                // Gera o nome do arquivo com base no CPF do cliente.
+                sprintf(nomeArquivo, "extrato_%s.txt", cpfExtrato);
+
+                // Cria um arquivo para o extrato.
+                arquivoExtrato = fopen(nomeArquivo, "w");
+                if (arquivoExtrato == NULL) {
+                    // Verifica se foi possível criar.
+                    printf("Erro ao criar o arquivo de extrato.\n");
+                    return;
+                }
+
+                // Escreve informações no arquivo
+                fprintf(arquivoExtrato, "Extrato de operacoes para o cliente %s:\n", clientes[i].nome);
+                fprintf(arquivoExtrato, "CPF: %s\n", clientes[i].cpf);
+                fprintf(arquivoExtrato, "Tipo de Conta: %s\n", (clientes[i].tipoConta == comum) ? "Comum" : "Plus");
+                fprintf(arquivoExtrato, "Saldo Inicial: %.2f\n", clientes[i].saldo);
+                fprintf(arquivoExtrato, "\n");
+
+                // Itera sobre as operações e escreve no arquivo.
+                for (int j = 0; j < MAX_OPERACOES && clientes[i].operacoes[j] != 0; ++j) {
+                    float valorOperacao = *(float *)&clientes[i].operacoes[j];
+                    fprintf(arquivoExtrato, "Operacao %d: %.2f\n", j + 1, valorOperacao);
+                }
+
+                // Fecha o arquivo
+                fclose(arquivoExtrato);
+
+                printf("Extrato gerado com sucesso. Consulte o arquivo %s\n", nomeArquivo);
+                return;
+            } else {
+                printf("Senha incorreta. Operacao cancelada.\n");
+                return;
+            }
+        }
+    }
+    // Se nenhum cliente com o CPF informado for encontrado.
+    printf("Cliente com CPF %s nao encontrado.\n", cpfExtrato);
+}
