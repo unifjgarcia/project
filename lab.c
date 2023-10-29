@@ -92,3 +92,28 @@ void apagaCliente(Cliente clientes[], int *numClientes) {
         printf("Cliente com CPF %s apagado com sucesso!\n", cpfParaApagar);
     }
 }
+void listarClientes(Cliente clientes[], int numClientes){
+    // Verifica se o número de clientes é zero.
+    if (numClientes == 0) {
+        // Se não houver clientes, imprime uma mensagem e retorna.
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+    // Se houver clientes, imprime um cabeçalho.
+    printf("Listagem de clientes:\n");
+    // Loop para iterar sobre os clientes no array.
+    for (int i = 0; i < numClientes; ++i) {
+        // Imprime o número do cliente.
+        printf("Cliente %d:\n", i + 1);
+        // Imprime o nome do cliente.
+        printf("Nome: %s\n", clientes[i].nome);
+        // Imprime o CPF do cliente.
+        printf("CPF: %s\n", clientes[i].cpf);
+        // Imprime o Tipo de Conta do cliente e imprime "Comum" ou "Plus".
+        printf("Tipo de Conta: %s\n", (clientes[i].tipoConta == comum) ? "Comum" : "Plus");
+        // Imprime o Saldo do cliente.
+        printf("Saldo: %.2f\n", clientes[i].saldo);
+        // Adiciona uma linha em branco para separar informações de clientes.
+        printf("\n");
+    }
+}
