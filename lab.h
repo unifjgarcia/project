@@ -25,4 +25,5 @@ int my_strcmp(const char *str1, const char *str2);
 void novoCliente(Cliente clientes[], int *numClientes);
 void apagaCliente(Cliente clientes[], int *numClientes);
 void listarClientes(Cliente clientes[], int numClientes);
+void debito(Cliente clientes[], int numClientes);
 #endif
