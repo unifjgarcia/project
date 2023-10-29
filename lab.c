@@ -170,3 +170,32 @@ void debito(Cliente clientes[], int numClientes) {
 
     printf("Cliente com CPF %s nao encontrado.\n", cpfDebito);
 }
+void deposito(Cliente clientes[], int numClientes) {
+    // Verifica se não há clientes cadastrados.
+    if (numClientes == 0) {
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+
+    char cpfDeposito[12];
+    printf("Informe o CPF do cliente: ");
+    scanf("%s", cpfDeposito);
+
+    int indiceCliente = -1;
+    // Procura pelo cliente com o CPF informado.
+    for (int i = 0; i < numClientes; ++i) {
+        // Compara o CPF digitado com o CPF do cliente atual.
+        if (my_strcmp(clientes[i].cpf, cpfDeposito) == 0) {
+            float valorDeposito;
+            printf("Informe o valor do depósito: ");
+            scanf("%f", &valorDeposito);
+
+            // Realiza o depósito, atualiza o saldo e informa o sucesso.
+            clientes[i].saldo += valorDeposito;
+            printf("Deposito de %.2f realizado com sucesso. Novo saldo: %.2f\n", valorDeposito, clientes[i].saldo);
+            return;
+        }
+    }
+
+    printf("Cliente com CPF %s nao encontrado.\n", cpfDeposito);
+}
