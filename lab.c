@@ -43,3 +43,52 @@ void novoCliente(Cliente clientes[], int *numClientes) {
     (*numClientes)++;
     printf("Cliente adicionado com sucesso!\n");
 }
+
+// Função para apagar um cliente cadastrado no banco a partir do seu CPF e senha
+void apagaCliente(Cliente clientes[], int *numClientes) {
+    // Verifica se o cliente à ser apagado existe
+    if (*numClientes == 0) {
+        printf("Nenhum cliente cadastrado. Impossível apagar.\n");
+        return;
+    }
+    // Solicita o CPF do cliente a ser apagado
+    char cpfParaApagar[12];
+    printf("Informe o CPF do cliente a ser apagado: ");
+    scanf("%s", cpfParaApagar);
+
+    // Variável para armazenar o índice do cliente a ser apagado
+    int indiceCliente = -1;
+
+    // Busca entre os clientes o cliente com o CPF fornecido
+    for (int i = 0; i < *numClientes; ++i) {
+        // Verifica se o CPF do cliente atual é igual ao fornecido
+        if (my_strcmp(clientes[i].cpf, cpfParaApagar) == 0) {
+            // Solicita a senha do cliente para confirmar a exclusão
+            char senhaDigitada[20];
+            printf("Informe a senha do cliente: ");
+            scanf("%s", senhaDigitada);
+
+            // Verifica se a senha está correta
+            if (my_strcmp(clientes[i].senha, senhaDigitada) == 0) {
+                indiceCliente = i;
+                break;
+            } else {
+                printf("Senha incorreta. Operacao cancelada.\n");
+                return;
+            }
+        }
+    }
+
+    // Verifica se o cliente com o CPF fornecido foi encontrado
+    if (indiceCliente == -1) {
+        printf("Cliente com CPF %s nao encontrado.\n", cpfParaApagar);
+    } else {
+        // Move todos os clientes à direita do cliente a ser apagado uma posição para a esquerda
+        for (int i = indiceCliente; i < *numClientes - 1; ++i) {
+            clientes[i] = clientes[i + 1];
+        }
+
+        (*numClientes)--;
+        printf("Cliente com CPF %s apagado com sucesso!\n", cpfParaApagar);
+    }
+}
