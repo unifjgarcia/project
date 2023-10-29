@@ -327,3 +327,17 @@ void transferencia(Cliente clientes[], int numClientes) {
       // Mostra caso a conta de origem não for encontrada
     printf("Conta de origem com CPF %s nao encontrada.\n", cpfOrigem);
 }
+
+void salvarClientes(Cliente clientes[], int numClientes) {
+    // Abre o arquivo "clientes.dat" em modo de escrita binária ("wb").
+    FILE *arquivo = fopen("clientes.dat", "wb");
+    if (arquivo == NULL) {
+        // Verifica se o arquivo foi aberto corretamente. Se não, exibe uma mensagem de erro e retorna.
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return; 
+    }
+     // Função fwrite para escrever os dados dos clientes no arquivo.
+    fwrite(clientes, sizeof(Cliente), numClientes, arquivo);
+    // Fecha o arquivo.
+    fclose(arquivo);
+}
