@@ -117,3 +117,56 @@ void listarClientes(Cliente clientes[], int numClientes){
         printf("\n");
     }
 }
+void debito(Cliente clientes[], int numClientes) {
+    if (numClientes == 0) {
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+
+    char cpfDebito[12];
+    printf("Informe o CPF do cliente: ");
+    scanf("%s", cpfDebito);
+
+    int indiceCliente = -1;
+    for (int i = 0; i < numClientes; ++i) {
+        if (my_strcmp(clientes[i].cpf, cpfDebito) == 0) {
+            char senhaDebito[20];
+            printf("Informe a senha do cliente: ");
+            scanf("%s", senhaDebito);
+
+            // Verifica se a senha está correta
+            if (my_strcmp(clientes[i].senha, senhaDebito) == 0) {
+                float valorDebito;
+                printf("Informe o valor do debito: ");
+                scanf("%f", &valorDebito);
+
+                // Verifica o tipo de conta
+                if (clientes[i].tipoConta == comum) {
+                    // Debito na conta comum
+                    valorDebito = 1.05; // Aplica taxa de 5%
+                    if (clientes[i].saldo - valorDebito < -1000.00) {
+                        printf("Debito nao autorizado. Saldo negativo limite atingido.\n");
+                        return;
+                    }
+                } else {
+                    // Debito na conta plus
+                    valorDebito= 1.03; // Aplica taxa de 3%
+                    if (clientes[i].saldo - valorDebito < -5000.00) {
+                        printf("Debito nao autorizado. Saldo negativo limite atingido.\n");
+                        return;
+                    }
+                }
+
+                // Realiza o débito
+                clientes[i].saldo -= valorDebito;
+                printf("Debito de %.2f realizado com sucesso. Novo saldo: %.2f\n", valorDebito, clientes[i].saldo);
+                return;
+            } else {
+                printf("Senha incorreta. Operacao cancelada.\n");
+                return;
+            }
+        }
+    }
+
+    printf("Cliente com CPF %s nao encontrado.\n", cpfDebito);
+}
