@@ -28,5 +28,4 @@ void listarClientes(Cliente clientes[], int numClientes);
 void debito(Cliente clientes[], int numClientes);
 void deposito(Cliente clientes[], int numClientes);
 void extrato(Cliente clientes[], int numClientes);
-void transferencia(Cliente clientes[], int numClientes);
 #endif
